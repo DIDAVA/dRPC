@@ -1,2 +1,2 @@
 # dRPC
-JSON-RPC 2.0 PHP Object
+JSON-RPC 2.0 PHP Class
