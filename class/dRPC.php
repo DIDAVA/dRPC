@@ -4,7 +4,7 @@ class dRPC {
   public $response;
   public $request;
 
-  function __construct() {
+  public function __construct() {
     $this->response = (object) [
       'jsonrpc' => '2.0'
     ];
@@ -17,12 +17,12 @@ class dRPC {
     $this->request = $json;
   }
 
-  function getMethod() {
+  public function getMethod() {
     if (!property_exists($this->request, 'method') || empty($this->request->method)) $this->setError( 'Method not found', -32601 );
     return $this->request->method;
   }
 
-  function getParams( $params = [] ) {
+  public function getParams( $params = [] ) {
     if (empty($this->request->params)) $this->setError( 'Invalid params', -32602 );
     if (count($params) > 0) {
       foreach ($params as $param) {
@@ -32,7 +32,7 @@ class dRPC {
     return $this->request->params;
   }
 
-  function setError($message, $code, $data = null) {
+  public function setError($message, $code, $data = null) {
     $this->response->error = (object) [
       'code' => $code,
       'message' => $message
@@ -41,12 +41,12 @@ class dRPC {
     $this->export();
   }
 
-  function setResult($result) {
+  public function setResult($result) {
     $this->response->result = $result;
     $this->export();
   }
 
-  function export() {
+  private function export() {
     http_response_code(200);
     header('Content-Type: application/json');
     echo json_encode( $this->response );

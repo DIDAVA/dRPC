@@ -16,7 +16,7 @@ try {
     header("Content-Length: 0");
   }
   else {
-    include './src/index.php';
+    include './class/dRPC.php';
     $rpc = new dRPC();
     $rpc->setResult([
       'method' => $rpc->getMethod(),
