@@ -7,7 +7,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
 header('Access-Control-Allow-Origin: '.$origin);
 
 try {
-  //if (empty($_SERVER['HTTP_ORIGIN']) || $_SERVER['HTTP_ORIGIN'] != $origin) throw new Exception("Request only allowed from $origin", 403);
+  if (empty($_SERVER['HTTP_ORIGIN']) || $_SERVER['HTTP_ORIGIN'] != $origin) throw new Exception("Request only allowed from $origin", 403);
   if (!in_array($_SERVER['REQUEST_METHOD'], ['OPTIONS', 'POST'])) throw new Exception("Invalid request method", 405);
   if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     header('Access-Control-Allow-Methods: OPTIONS, POST');
