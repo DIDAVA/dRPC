@@ -18,7 +18,7 @@ class dRPC {
   }
 
   public function getMethod() {
-    if (!property_exists($this->request, 'method') || empty($this->request->method)) $this->setError( 'Method not found', -32601 );
+    if (!property_exists($this->request, 'method') || empty($this->request->method)) $this->methodNotFound();
     return $this->request->method;
   }
 
@@ -26,10 +26,18 @@ class dRPC {
     if (empty($this->request->params)) $this->setError( 'Invalid params', -32602 );
     if (count($params) > 0) {
       foreach ($params as $param) {
-        if (!property_exists($this->request->params, $param)) $this->setError( 'Invalid params', -32602, "Parameter '$param' is required");
+        if (!property_exists($this->request->params, $param)) $this->invalidMethodParams("$param is required");
       }
     }
     return $this->request->params;
+  }
+
+  public function methodNotFound() {
+    $this->setError('Method not found', -32601);
+  }
+
+  public function invalidMethodParams($message = null) {
+    $this->setError($message, -32602);
   }
 
   public function setError($message, $code, $data = null) {
